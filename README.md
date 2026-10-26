@@ -7,11 +7,7 @@ The repository is an initial scaffold. It defines the data record, paired experi
 ## Layout
 
 ```text
-data/
-  raw/                 Downloaded xBD files (not committed)
-  processed/           Building crops and manifest (not committed)
 docs/experiment-plan.md
-results/               Predictions, metrics, and figures (not committed)
 src/disaster_model/
   data.py              Building manifest format and reader
   conditions.py        Image-only and text-claim conditions
@@ -19,6 +15,8 @@ src/disaster_model/
   scoring.py           Normalized choice scores and confidence
   results.py           Per-condition result record
 ```
+
+Create `data/raw/`, `data/processed/`, and `results/` locally when needed. Git ignores those generated data and output directories.
 
 ## Data contract
 
@@ -32,7 +30,7 @@ src/disaster_model/
 
 ## Planned workflow
 
-1. Put the xBD data in `data/raw/`, then create paired building crops and `data/processed/manifest.jsonl` from its polygons.
+1. Create `data/raw/` and `data/processed/` locally. Put the xBD data in `data/raw/`, then create paired building crops and `data/processed/manifest.jsonl` from its polygons.
 2. Pin the Qwen3-VL-8B-Instruct snapshot and run the same buildings through the image-only and text-claim conditions. Keep the images and A/B/C/D classification question fixed.
 3. Score the four answer choices from model logits, normalize their scores with softmax, and save one result per building and condition in `results/`. The image-only result supplies the baseline prediction and confidence for every text condition.
 4. Compute macro-F1, per-class precision/recall, confusion matrices, and prediction flip rates. See [the experiment plan](docs/experiment-plan.md).
