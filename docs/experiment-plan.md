@@ -20,7 +20,7 @@ Run every selected building with the same two images and the same classification
 2. A claim matching the true label.
 3. Claims at each possible nonzero severity distance from the true label.
 
-The scaffold generates every possible claim for each building. This covers conflict distances of one, two, and three where possible while keeping the image pair fixed. The statement template is `The building shown has {label}.`
+The code generates every possible claim for each building. This covers conflict distances of one, two, and three where possible while keeping the image pair fixed. The statement template is `The building shown has {label}.`
 
 ## Image-only confidence
 
@@ -40,7 +40,7 @@ Each result row records the true label, text claim, conflict distance, current p
 - Flip rates by conflict distance, image-only confidence, damage severity, and disaster type.
 - Cases where conflicting text changes a correct image-only prediction to an incorrect one, or corrects an incorrect baseline prediction.
 
-## Decisions before implementation
+## Decisions for the full study
 
 - Which xBD split and sampling scheme to use, and how to handle class imbalance.
 - Crop padding and how to match each polygon to pre- and post-disaster imagery.

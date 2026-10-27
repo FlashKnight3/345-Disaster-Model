@@ -1,4 +1,4 @@
-"""Create a self-contained HTML showcase from a completed real inference run."""
+"""Build the offline demo page from saved predictions."""
 
 import argparse
 from pathlib import Path

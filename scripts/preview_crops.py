@@ -1,4 +1,4 @@
-"""Create a contact sheet to inspect all selected before/after crops."""
+"""Make a contact sheet for checking the image crops."""
 
 import argparse
 from pathlib import Path

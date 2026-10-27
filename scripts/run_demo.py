@@ -1,4 +1,4 @@
-"""Run pinned Qwen3-VL on a prepared xBD demo manifest."""
+"""Score the prepared building sample with Qwen3-VL."""
 
 import argparse
 import hashlib
@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 from disaster_model.data import read_manifest
-from disaster_model.demo import demo_conditions
+from disaster_model.conditions import demo_conditions
 from disaster_model.qwen import QwenChoiceScorer
 from disaster_model.results import result_row
 from disaster_model.scoring import prediction_from_scores
@@ -75,7 +75,7 @@ def main() -> None:
                 prediction = baseline if condition.name == "image_only" else prediction_from_scores(
                     scorer.score_choices(building.pre_image, building.post_image, condition.prompt)
                 )
-                output.write(json.dumps(result_row(building, condition, baseline, prediction).to_record()) + "\n")
+                output.write(json.dumps(result_row(building, condition, baseline, prediction)) + "\n")
                 output.flush()
             print(f"Scored {index}/{len(buildings)}: {building.building_id}", flush=True)
 

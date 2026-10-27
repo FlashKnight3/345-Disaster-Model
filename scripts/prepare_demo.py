@@ -1,4 +1,4 @@
-"""Make a small class-balanced xBD sample for the midterm demo."""
+"""Pick a small xBD sample and crop each building."""
 
 import argparse
 from pathlib import Path

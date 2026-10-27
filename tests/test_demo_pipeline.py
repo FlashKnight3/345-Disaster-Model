@@ -8,9 +8,8 @@ from pathlib import Path
 
 from PIL import Image
 
-from disaster_model.conditions import DAMAGE_LABELS
+from disaster_model.conditions import DAMAGE_LABELS, demo_conditions
 from disaster_model.data import read_manifest
-from disaster_model.demo import demo_conditions
 from disaster_model.results import result_row
 from disaster_model.scoring import prediction_from_scores
 from disaster_model.showcase import build_showcase
@@ -78,7 +77,7 @@ class DemoPipelineTest(unittest.TestCase):
                                 choice: 4 if label == condition.text_claim else 0
                                 for choice, label in zip("ABCD", DAMAGE_LABELS)
                             })
-                        output.write(json.dumps(result_row(building, condition, baseline, prediction).to_record()) + "\n")
+                        output.write(json.dumps(result_row(building, condition, baseline, prediction)) + "\n")
             (results / "run.json").write_text(json.dumps({
                 "complete": False,
                 "manifest_sha256": hashlib.sha256(manifest.read_bytes()).hexdigest(),
@@ -95,8 +94,8 @@ class DemoPipelineTest(unittest.TestCase):
             content = page.read_text()
             self.assertIn("4/4", content)
             self.assertIn("8/8", content)
-            self.assertIn("data:image/png;base64,", content)
-            self.assertIn("Each row's A/B/C/D shares sum to 1", content)
+            self.assertEqual(content.count("data:image/png;base64,"), 8)
+            self.assertEqual(content.count("<details><summary>"), 16)
             self.assertIn("A: no damage", content)
 
             records = [json.loads(line) for line in predictions.read_text().splitlines()]

@@ -1,46 +1,25 @@
-# Multimodal Disaster Damage Assessment
+# Disaster damage and conflicting text
 
-This project studies whether a vision-language model follows a text claim when it conflicts with satellite imagery. Each example is one building from xBD/xView2, represented by a pre-disaster crop, a post-disaster crop, and one of four damage labels. The planned model is a frozen, snapshot-pinned Qwen3-VL-8B-Instruct.
+This is our COMP 345 project on building damage assessment. We give Qwen3-VL a satellite image from before a disaster and one from after it, then ask for one of four damage labels: no damage, minor damage, major damage, or destroyed. The images and building labels come from xBD.
 
-The repository contains a small midterm demo pipeline: xBD crop preparation, paired experiment conditions, Qwen3-VL choice scoring, saved results, and an offline showcase page.
+We want to see whether adding a written claim changes the model's answer, especially when the claim disagrees with the images.
 
-For the midterm, follow the [demo runbook](docs/midterm-demo.md) to prepare a 12-building sample, run a one-building scoring pilot, score the paired conditions, and make an offline HTML showcase.
+## Midterm demo
 
-## Layout
+For the midterm we selected 12 buildings, three from each damage class. A yellow box marks the same building in both images. Each building is scored four times: with images alone, with a claim matching the xBD label, and with two conflicting claims. The images and classification question stay the same across those runs.
 
-```text
-docs/experiment-plan.md
-docs/midterm-demo.md
-src/disaster_model/
-  data.py              Building manifest format and reader
-  conditions.py        Image-only and text-claim conditions
-  scoring.py           Normalized choice scores and confidence
-  results.py           Per-condition result record
-  xbd.py               xBD crop preparation
-  qwen.py              Qwen3-VL answer-token scoring
-  showcase.py          Offline HTML demo report
-scripts/               Preparation, pilot, inference, and report commands
+We score A, B, C, and D using the model's logits, then apply softmax. The four numbers add up to 1 **within each prompt**. They show which answer the model prefers, not its actual probability of being correct.
+
+In our first local run, the image-only answer matched the xBD label for 4 of 12 buildings. In 22 cases, a conflicting claim named a different class than the image-only prediction. Qwen chose the claimed class in all 22. This is a small demo sample, so we are treating those numbers as observations rather than a general result about the model.
+
+## Run or view the demo
+
+On the Mac where we ran the experiment, open `results/demo/showcase.html` to see the images, predictions, and scores. The page works offline. From Terminal, in this folder:
+
+```bash
+open results/demo/showcase.html
 ```
 
-Create `data/raw/`, `data/processed/`, and `results/` locally when needed. Git ignores those generated data and output directories.
+The image crops and result files are ignored by Git, so a fresh clone will not include them. To prepare data and run the model yourself, follow [the midterm runbook](docs/midterm-demo.md). You will need the labeled xBD training archive from [xView2](https://xview2.org/dataset). The first model run also downloads Qwen3-VL weights.
 
-## Data contract
-
-`data/processed/manifest.jsonl` contains one JSON object per building. Paths to crops are relative to the manifest's directory. For example:
-
-```json
-{"building_id":"example-001","pre_image":"crops/example-001-pre.png","post_image":"crops/example-001-post.png","true_label":"major damage","disaster_type":"hurricane","split":"test"}
-```
-
-`building_id` should uniquely identify a building. `pre_image`, `post_image`, `true_label`, and `split` are required. `disaster_type` is optional but useful for failure analysis. The example above describes the format; no dataset files are included.
-
-## Planned workflow
-
-1. Create `data/raw/` and `data/processed/` locally. Put the xBD data in `data/raw/`, then create paired building crops and `data/processed/manifest.jsonl` from its polygons.
-2. Pin the Qwen3-VL-8B-Instruct snapshot and run the same buildings through the image-only and text-claim conditions. Keep the images and A/B/C/D classification question fixed.
-3. Score the four answer choices from model logits, normalize their scores with softmax, and save one result per building and condition in `results/`. The image-only result supplies the baseline prediction and confidence for every text condition.
-4. Compute macro-F1, per-class precision/recall, confusion matrices, and prediction flip rates. See [the experiment plan](docs/experiment-plan.md).
-
-Confidence means the normalized score of the chosen class **among the four answer choices**. It is not a calibrated probability of being correct. Before the full experiment, a small pilot must verify that A/B/C/D are scored consistently at the answer position. See [the experiment plan](docs/experiment-plan.md).
-
-The dataset and model weights are obtained separately; generated crops and results stay out of Git.
+The main commands are in `scripts/`: `prepare_demo.py` makes building crops, `run_demo.py` scores the four conditions, and `build_showcase.py` creates the HTML page. The code they use is in `src/disaster_model/`. Our broader study plan is in [docs/experiment-plan.md](docs/experiment-plan.md).

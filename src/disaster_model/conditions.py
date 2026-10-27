@@ -34,3 +34,15 @@ def conditions_for(true_label: str) -> tuple[Condition, ...]:
             Condition(name, claim, distance, f"{statement}\n\n{CLASSIFICATION_QUESTION}")
         )
     return tuple(conditions)
+
+
+def demo_conditions(true_label: str) -> tuple[Condition, ...]:
+    """Use four prompts per building for the midterm demo."""
+    conditions = conditions_for(true_label)
+    conflicts = [condition for condition in conditions if condition.name == "conflicting_text"]
+    return (
+        conditions[0],
+        next(condition for condition in conditions if condition.name == "matching_text"),
+        min(conflicts, key=lambda condition: condition.conflict_distance),
+        max(conflicts, key=lambda condition: condition.conflict_distance),
+    )
