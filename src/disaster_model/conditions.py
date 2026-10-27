@@ -6,7 +6,7 @@ from dataclasses import dataclass
 DAMAGE_LABELS = ("no damage", "minor damage", "major damage", "destroyed")
 ANSWER_CHOICES = dict(zip("ABCD", DAMAGE_LABELS))
 CLASSIFICATION_QUESTION = (
-    "Compare the pre-disaster and post-disaster images of this building. "
+    "Compare the pre-disaster and post-disaster images of the building outlined in yellow. "
     "Classify its damage using these choices: A: no damage; B: minor damage; "
     "C: major damage; D: destroyed. Reply with only A, B, C, or D."
 )

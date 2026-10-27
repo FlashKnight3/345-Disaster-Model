@@ -2,18 +2,24 @@
 
 This project studies whether a vision-language model follows a text claim when it conflicts with satellite imagery. Each example is one building from xBD/xView2, represented by a pre-disaster crop, a post-disaster crop, and one of four damage labels. The planned model is a frozen, snapshot-pinned Qwen3-VL-8B-Instruct.
 
-The repository is an initial scaffold. It defines the data record, paired experiment conditions, choice-score normalization, and result record; dataset preparation and Qwen inference will be added as their details are settled.
+The repository contains a small midterm demo pipeline: xBD crop preparation, paired experiment conditions, Qwen3-VL choice scoring, saved results, and an offline showcase page.
+
+For the midterm, follow the [demo runbook](docs/midterm-demo.md) to prepare a 12-building sample, run a one-building scoring pilot, score the paired conditions, and make an offline HTML showcase.
 
 ## Layout
 
 ```text
 docs/experiment-plan.md
+docs/midterm-demo.md
 src/disaster_model/
   data.py              Building manifest format and reader
   conditions.py        Image-only and text-claim conditions
-  model.py             Interface for scoring four answer choices
   scoring.py           Normalized choice scores and confidence
   results.py           Per-condition result record
+  xbd.py               xBD crop preparation
+  qwen.py              Qwen3-VL answer-token scoring
+  showcase.py          Offline HTML demo report
+scripts/               Preparation, pilot, inference, and report commands
 ```
 
 Create `data/raw/`, `data/processed/`, and `results/` locally when needed. Git ignores those generated data and output directories.
@@ -37,4 +43,4 @@ Create `data/raw/`, `data/processed/`, and `results/` locally when needed. Git i
 
 Confidence means the normalized score of the chosen class **among the four answer choices**. It is not a calibrated probability of being correct. Before the full experiment, a small pilot must verify that A/B/C/D are scored consistently at the answer position. See [the experiment plan](docs/experiment-plan.md).
 
-The model and dataset are intentionally not downloaded or run by this scaffold.
+The dataset and model weights are obtained separately; generated crops and results stay out of Git.
