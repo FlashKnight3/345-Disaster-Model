@@ -10,7 +10,7 @@ For the midterm we selected 12 buildings, three from each damage class. A yellow
 
 We score A, B, C, and D using the model's logits, then apply softmax. The four numbers add up to 1 **within each prompt**. They show which answer the model prefers, not its actual probability of being correct.
 
-In our first local run, the image-only answer matched the xBD label for 4 of 12 buildings. In 22 cases, a conflicting claim named a different class than the image-only prediction. Qwen chose the claimed class in all 22. This is a small demo sample, so we are treating those numbers as observations rather than a general result about the model.
+In the current local run saved in `results/demo/`, the image-only answer matched the xBD label for 6 of 12 buildings. Qwen chose the claimed class in all 24 conflicting-claim prompts. In 22 of those prompts, the claim differed from the image-only prediction, so the answer flipped toward the claim; in the other two, the image-only answer already matched the claim. This is a small demo sample, so we are treating those numbers as observations rather than a general result about the model.
 
 ## Run or view the demo
 

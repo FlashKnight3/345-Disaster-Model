@@ -38,8 +38,8 @@ The full run writes `results/demo/predictions.jsonl` and `results/demo/run.json`
 1. State the question and show the fixed A/B/C/D choices.
 2. Show one before/after pair and its image-only prediction and score.
 3. Show the same pair with a matching and a conflicting claim.
-4. In the current local run, image-only predictions matched 4 of 12 xBD labels. All 22 conflicting claims whose label differed from the image-only prediction moved the prediction to the claim. Two conflicting claims already matched the image-only prediction, so they cannot count as flips.
-5. Point out a confident mistake: the first no-damage building was classified as destroyed with an image-only share of about 0.997. The four A/B/C/D shares sum to 1 for each row, but they are not calibrated probabilities of correctness.
+4. In the current local run, image-only predictions matched 6 of 12 xBD labels. Qwen followed all 24 conflicting claims. All 22 claims whose label differed from the image-only prediction moved the prediction to the claim; the other two already matched the image-only prediction and cannot count as flips.
+5. Point out a confident mistake: one no-damage building was classified as major damage with an image-only share of about 0.999. The four A/B/C/D shares sum to 1 for each row, but they are not calibrated probabilities of correctness.
 6. Explain that this small sample demonstrates the pipeline and text sensitivity. It does not establish that lower image-only confidence causes more flips; nearly all baseline shares were high and the eligible conflicts all flipped.
 
 The generated data and results directories are ignored by Git. Keep the model revision in `run.json` with any screenshots or exported results used in the showcase.
