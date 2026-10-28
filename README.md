@@ -14,9 +14,9 @@ In the current local run saved in `results/demo/`, the image-only answer matched
 
 ## Run or view the demo
 
-The [IPython demo notebook](notebooks/disaster_demo.ipynb) walks through one
-before/after image pair, the four prompts, and the results across all 12
-buildings. It embeds one xBD image pair and a snapshot of the completed run,
+The [IPython demo notebook](notebooks/disaster_demo.ipynb) walks through all 12
+before/after image pairs, the four prompts, and the results for each building.
+It embeds the selected xBD crops and a snapshot of the completed run,
 so the notebook's replay cells work even when the `.ipynb` file is opened by
 itself outside the repository. Open it in any Jupyter Python 3 environment and
 run all cells. To use this repository's environment, install the notebook tools
