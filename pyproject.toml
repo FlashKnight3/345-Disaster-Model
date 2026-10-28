@@ -11,6 +11,7 @@ dependencies = []
 
 [project.optional-dependencies]
 demo = ["Pillow>=10", "torch>=2.14", "torchvision>=0.29.1", "transformers>=4.57", "accelerate>=1"]
+notebook = ["Pillow>=10", "ipykernel>=6", "jupyterlab>=4"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
