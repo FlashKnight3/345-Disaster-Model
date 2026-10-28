@@ -16,14 +16,17 @@ In the current local run saved in `results/demo/`, the image-only answer matched
 
 The [IPython demo notebook](notebooks/disaster_demo.ipynb) walks through one
 before/after image pair, the four prompts, and the results across all 12
-buildings. It can use a completed local run or launch the model from a notebook
-cell. Install the notebook tools with `python -m pip install -e '.[notebook]'`,
-then open it with `jupyter lab notebooks/disaster_demo.ipynb`. For a new model
-run, also install the `demo` extra and follow the notebook's data setup steps.
+buildings. It embeds one xBD image pair and a snapshot of the completed run,
+so the notebook's replay cells work even when the `.ipynb` file is opened by
+itself outside the repository. Open it in any Jupyter Python 3 environment and
+run all cells. To use this repository's environment, install the notebook tools
+with `python -m pip install -e '.[notebook]'`, then run
+`jupyter lab notebooks/disaster_demo.ipynb`.
 
-The notebook is tracked in Git; the xBD images, model weights, and generated
-results are not. A fresh clone needs the xBD data and must run inference before
-the result cells can show predictions.
+The notebook's optional model cell needs the repository, prepared xBD data,
+and the `demo` dependencies. The full xBD dataset, model weights, and generated
+run files are ignored by Git. Follow [the midterm runbook](docs/midterm-demo.md)
+to create a new run.
 
 On the Mac where we ran the experiment, open `results/demo/showcase.html` to see the images, predictions, and scores. The page works offline. From Terminal, in this folder:
 
